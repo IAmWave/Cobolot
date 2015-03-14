@@ -11,5 +11,5 @@ package input;
  */
 public interface ChatListener { //Implementuji tridy, ktere chteji dostavat zpravy z chatu
 
-    public void onMessage(String message);
+    public void onMessage(Message message);
 }
