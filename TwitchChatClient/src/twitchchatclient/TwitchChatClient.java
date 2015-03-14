@@ -23,8 +23,6 @@ public class TwitchChatClient {
 
     BufferedWriter writer = null;
     BufferedReader reader = null;
-
-    // The server to connect to and our details.
     
     String server = "irc.twitch.tv";
     String nick = "cobolot";
@@ -48,9 +46,6 @@ public class TwitchChatClient {
 
     public TwitchChatClient(String channel) throws IOException {
         this.channel = channel;
-        // The channel which the bot will join.
-        //String channel = "#gronkh";
-
         // Connect directly to the IRC server.
         Socket socket;
         BufferedWriter writer = null;
@@ -88,29 +83,11 @@ public class TwitchChatClient {
         // Join the channel.
         writer.write("JOIN " + channel + "\r\n");
         writer.flush();
-        // Keep reading lines from the server.
-        /*while ((line = reader.readLine()) != null) {
-         // if (!line.contains("PART") && !line.contains("JOIN") && !line.contains("tmi.twitch.tv 353")) {
-         if (line.startsWith("PING ")) {
-         // We must respond to PINGs to avoid being disconnected.
-         writer.write("PONG " + line.substring(5) + "\r\n");
-         writer.flush();
-         System.out.println(line);
-         } else if (line.contains("PRIVMSG")) {
-         System.out.println(line.split(":")[2]);
-         } else {
-         // Print the raw line received by the bot.
-         System.out.println(line);
-         }
-            
-         }*/
-
     }
 
     public String readAll() throws IOException {
         String out = "";
         String line = reader.readLine();
-        //while ((line = reader.readLine()) != null && reader.ready()) {
         // if (!line.contains("PART") && !line.contains("JOIN") && !line.contains("tmi.twitch.tv 353")) {
         if (line.startsWith("PING ")) {
             // We must respond to PINGs to avoid being disconnected.
@@ -120,8 +97,6 @@ public class TwitchChatClient {
         } else if (line.contains("PRIVMSG")) {
             System.out.println(line);
             String msg = line.substring(line.indexOf(this.channel) + channel.length() + 2);
-            //String msg = line.split(":")[2];
-
             if (msg.contains(target) && !line.contains(this.nick)) {
                 goalReached = true;
                 this.pastaCount++;
@@ -132,7 +107,6 @@ public class TwitchChatClient {
             // Print the raw line received by the bot.
             System.out.println(line);
         }
-        //}
         return out;
     }
 

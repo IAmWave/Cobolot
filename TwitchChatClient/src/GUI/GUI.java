@@ -38,10 +38,6 @@ public class GUI extends javax.swing.JFrame {
      */
     public GUI() {
         initComponents();
-        //chatPane.getCaret().setBlinkRate(0);
-        //chatPane.setCaretColor(Color.WHITE);
-        //chatArea.setLineWrap(true);
-        //chatArea.setWrapStyleWord(true);
         String s = (String) JOptionPane.showInputDialog(new JFrame(), "Channel: ", DEFAULT_SERVER);
         this.currentMillis = new Date().getTime();
 
@@ -51,8 +47,6 @@ public class GUI extends javax.swing.JFrame {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.timer = new Timer();
-
-        //client.readAll(chatArea);
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -69,14 +63,10 @@ public class GUI extends javax.swing.JFrame {
                             appendPane("\n" + msg, c);
                         }
                     }
-                    //chatArea.setCaretPosition(chatArea.getDocument().getLength());
+                    
                 } catch (IOException ex) {
                     Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                /*if(!goalRecorded && client.goalReached){
-                 JOptionPane.showMessageDialog(new JFrame(), "Target pasta found in " + (new Date().getTime() - timerStartMillis) + " milliseconds.");
-                 goalRecorded = true;
-                 }*/
                 if (client.pastaCount > 0 && pastaStatusLabel.getText().equals("not found yet")) {
                     pastaCountLabel.setText(client.pastaCount + "");
                     pastaStatusLabel.setText("FOUND IN " + (new Date().getTime() - timerStartMillis) + " ms");
@@ -204,7 +194,6 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_pastaButtonActionPerformed
 
     public void appendPane(String s, Color c) {
-        //chatPane.setEditable(true);
         StyleContext sc = StyleContext.getDefaultStyleContext();
         AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY,
                 StyleConstants.Foreground, c);
@@ -214,14 +203,13 @@ public class GUI extends javax.swing.JFrame {
         chatPane.setCharacterAttributes(aset, false);
         chatPane.replaceSelection(s); // there is no selection, so inserts at caret
         chatPane.setCaretPosition(chatPane.getDocument().getLength());
-        //chatPane.setEditable(false);
     }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
+        /* Set the System look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
