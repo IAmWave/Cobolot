@@ -5,6 +5,7 @@
  */
 package logic;
 
+import gui.GUIFrame;
 import input.ChatReader;
 
 /**
@@ -15,6 +16,7 @@ public class Launcher {
     public static void main(String[] args){
         //misto ClientExample pak dame nejaky to klikatko
         ChatReader cr = new ChatReader();
-        ClientExample client = new ClientExample(cr);
+        //ClientExample client = new ClientExample(cr);
+        new GUIFrame(cr).setVisible(true);
     }
 }
