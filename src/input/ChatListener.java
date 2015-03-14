@@ -3,19 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cobolot;
+package input;
 
 /**
  *
  * @author Václav
  */
-public class Cobolot {
+public interface ChatListener { //Implementuji tridy, ktere chteji dostavat zpravy z chatu
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        System.out.println("Hello world");
-    }
-    
+    public void onMessage(String message);
 }
