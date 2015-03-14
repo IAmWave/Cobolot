@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -21,12 +22,13 @@ public class ClientExample implements ChatListener {
         this.cr = cr;
         cr.addListener(this);
         cr.start();
-        cr.sendMessage("priklad posilani zpravy", "esl_lol");
+        cr.joinChannel("trumpsc");
+        cr.sendMessage("priklad posilani zpravy", cr.currentChannels.get(0));
     }
 
     @Override
     public void onMessage(Message message) {
-        System.out.println(message.getMsg());
+        System.out.println(message.getUser() + ": " + message.getMsg());
     }
 
 }

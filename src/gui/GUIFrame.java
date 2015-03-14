@@ -22,10 +22,12 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
     
     public GUIFrame(ChatReader cr) {
         chatReader = cr;
-        cr.addListener(this);
         initComponents();
         setLocationRelativeTo(null);
+        cr.addListener(this);
         cr.start();
+        cr.joinChannel("trumpsc");
+        cr.sendMessage("priklad posilani zpravy", cr.currentChannels.get(0));
     }
 
     /**
@@ -101,6 +103,6 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
 
     @Override
     public void onMessage(Message message) {
-        chatPane.setText(chatPane.getText() + "\n" + message.getMsg());
+        chatPane.setText(chatPane.getText() + message.getMsg() + "\n");
     }
 }
