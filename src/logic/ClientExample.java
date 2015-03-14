@@ -6,16 +6,26 @@
 package logic;
 
 import input.ChatListener;
+import input.ChatReader;
 
 /**
  *
  * @author Václav
  */
 public class ClientExample implements ChatListener {
+    
+    ChatReader cr;
+    
+    public ClientExample(ChatReader cr) {
+        this.cr = cr;
+        cr.addListener(this);
+        cr.start();
+        cr.sendMessage("priklad posilani zpravy");
+    }
 
     @Override
     public void onMessage(String message) {
         System.out.println(message);
     }
-    
+
 }
