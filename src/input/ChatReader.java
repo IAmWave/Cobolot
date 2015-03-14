@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -89,22 +90,11 @@ public class ChatReader {
         }
     }
 
-    public String read() {
-        String out = "";
-        try {
-            out = reader.readLine();
-
-        } catch (IOException ex) {
-            Logger.getLogger(ChatReader.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return out;
-    }
-
     //asi bych sem dal i posilani zpravy, i kdyz je to "reader"
     //pripadne prejmenujeme jestli mas nejakej napad :D
     public void sendMessage(String msg, String channel) {
         try {
-            writer.write("PRIVMSG " + channel + " :" + msg + "\r\n");
+            writer.write("PRIVMSG #" + channel + " :" + msg + "\r\n");
             writer.flush();
         } catch (IOException ex) {
             Logger.getLogger(ChatReader.class.getName()).log(Level.SEVERE, null, ex);
