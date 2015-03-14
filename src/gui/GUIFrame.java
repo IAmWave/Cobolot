@@ -5,12 +5,13 @@
  */
 package gui;
 
+import gui.tabs.ExampleTabPanel;
 import input.ChatListener;
 import input.ChatReader;
 import input.Message;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.JLabel;
 
 /**
  *
@@ -27,13 +28,7 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
         chatReader = cr;
         try {
             javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(GUIFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(GUIFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(GUIFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(GUIFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -58,7 +53,7 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         chatPane = new javax.swing.JTextPane();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tabbedPane = new javax.swing.JTabbedPane();
         firstPanel = new javax.swing.JPanel();
         secondPanel = new javax.swing.JPanel();
         sendTextField = new javax.swing.JTextField();
@@ -67,6 +62,8 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jScrollPane1.setViewportView(chatPane);
+
+        firstPanel = new ExampleTabPanel(chatReader, "soda");
 
         javax.swing.GroupLayout firstPanelLayout = new javax.swing.GroupLayout(firstPanel);
         firstPanel.setLayout(firstPanelLayout);
@@ -79,7 +76,7 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
             .addGap(0, 572, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("tab1", firstPanel);
+        tabbedPane.addTab("tab1", firstPanel);
 
         javax.swing.GroupLayout secondPanelLayout = new javax.swing.GroupLayout(secondPanel);
         secondPanel.setLayout(secondPanelLayout);
@@ -92,7 +89,7 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
             .addGap(0, 572, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("tab2", secondPanel);
+        tabbedPane.addTab("tab2", secondPanel);
 
         sendButton.setText("Send");
         sendButton.addActionListener(new java.awt.event.ActionListener() {
@@ -106,7 +103,7 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jTabbedPane1)
+                .addComponent(tabbedPane)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -117,7 +114,7 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(tabbedPane)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -138,15 +135,16 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
     private javax.swing.JTextPane chatPane;
     private javax.swing.JPanel firstPanel;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel secondPanel;
     private javax.swing.JButton sendButton;
     private javax.swing.JTextField sendTextField;
+    private javax.swing.JTabbedPane tabbedPane;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void onMessage(Message message) {
         chatPane.setText(chatPane.getText() + message.getMsg() + "\n");
         chatPane.setCaretPosition(chatPane.getDocument().getLength());
+        repaint(); //Repaintuje taby
     }
 }
