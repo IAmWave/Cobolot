@@ -41,8 +41,6 @@ public class ChatReader {
 
         // Connect directly to the IRC server.
         Socket socket;
-        BufferedWriter writer = null;
-        BufferedReader reader = null;
         try {
             socket = new Socket(SERVER, 6667);
             this.writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -60,7 +58,7 @@ public class ChatReader {
     public void start() { //zacne cist zpravy
         //NA TENHLE PRIKLAD JSEM DAL PERIOD NA 1000 MS
         //V IMPLEMENTACI TO VRAT NA NECO ROZUMNYHO
-        new Timer().scheduleAtFixedRate(new ReaderTask(), 50, 1000);
+        new Timer().scheduleAtFixedRate(new ReaderTask(), 1000, 50);
     }
 
     public void addListener(ChatListener l) {

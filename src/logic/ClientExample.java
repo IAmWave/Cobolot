@@ -21,12 +21,13 @@ public class ClientExample implements ChatListener {
         this.cr = cr;
         cr.addListener(this);
         cr.start();
-        cr.sendMessage("priklad posilani zpravy", cr.currentChannels.get(1));
+        cr.joinChannel("trumpsc");
+        cr.sendMessage("priklad posilani zpravy", cr.currentChannels.get(0));
     }
 
     @Override
     public void onMessage(Message message) {
-        System.out.println(message);
+        System.out.println(message.getUser() + ": " + message.getMsg());
     }
 
 }
