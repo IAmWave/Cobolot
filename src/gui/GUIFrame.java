@@ -8,6 +8,9 @@ package gui;
 import input.ChatListener;
 import input.ChatReader;
 import input.Message;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -22,11 +25,25 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
     
     public GUIFrame(ChatReader cr) {
         chatReader = cr;
+        try {
+            javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(GUIFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(GUIFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(GUIFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(GUIFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         initComponents();
+        //Look and feel
+        
         setLocationRelativeTo(null);
         cr.addListener(this);
         cr.start();
-        cr.joinChannel("trumpsc");
+        cr.joinChannel("sodapoppin");
         cr.sendMessage("priklad posilani zpravy", cr.currentChannels.get(0));
     }
 
@@ -44,6 +61,8 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         firstPanel = new javax.swing.JPanel();
         secondPanel = new javax.swing.JPanel();
+        sendTextField = new javax.swing.JTextField();
+        sendButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,6 +94,13 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
 
         jTabbedPane1.addTab("tab2", secondPanel);
 
+        sendButton.setText("Send");
+        sendButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -82,16 +108,31 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jTabbedPane1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(sendTextField)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(sendButton))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
             .addComponent(jTabbedPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sendTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sendButton)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
+        chatReader.sendMessage(sendTextField.getText(), chatReader.currentChannels.get(0));
+        sendTextField.setText("");
+    }//GEN-LAST:event_sendButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextPane chatPane;
@@ -99,10 +140,13 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel secondPanel;
+    private javax.swing.JButton sendButton;
+    private javax.swing.JTextField sendTextField;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void onMessage(Message message) {
         chatPane.setText(chatPane.getText() + message.getMsg() + "\n");
+        chatPane.setCaretPosition(chatPane.getDocument().getLength());
     }
 }
