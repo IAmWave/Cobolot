@@ -25,6 +25,7 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
     
     public GUIFrame(ChatReader cr) {
         chatReader = cr;
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         try {
             javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException ex) {
@@ -36,7 +37,7 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(GUIFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+         //</editor-fold>
         initComponents();
         //Look and feel
         
