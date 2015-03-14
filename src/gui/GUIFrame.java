@@ -9,9 +9,14 @@ import gui.tabs.ExampleTabPanel;
 import input.ChatListener;
 import input.ChatReader;
 import input.Message;
+import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JLabel;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
 
 /**
  *
@@ -23,18 +28,19 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
      * Creates new form GUIFrame
      */
     ChatReader chatReader;
-    
+
     public GUIFrame(ChatReader cr) {
         chatReader = cr;
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code">
         try {
             javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
             Logger.getLogger(GUIFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        //</editor-fold>
         initComponents();
         //Look and feel
-        
+
         setLocationRelativeTo(null);
         cr.addListener(this);
         cr.start();
@@ -143,7 +149,18 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
 
     @Override
     public void onMessage(Message message) {
-        chatPane.setText(chatPane.getText() + message.getMsg() + "\n");
+        Color c = Color.BLACK;
+        StyleContext sc = StyleContext.getDefaultStyleContext();
+        AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY,StyleConstants.Foreground, c);
+        int len = chatPane.getDocument().getLength(); // same value as getText().length();
+        chatPane.setCaretPosition(len);  // place caret at the end (with no selection)
+        chatPane.setCharacterAttributes(aset, false);
+        if(chatPane.getText().equals("")){
+        chatPane.replaceSelection(message.getMsg()); // there is no selection, so inserts at caret
+        }
+        else{
+        chatPane.replaceSelection("\n" + message.getMsg()); // there is no selection, so inserts at caret
+        }
         chatPane.setCaretPosition(chatPane.getDocument().getLength());
         repaint(); //Repaintuje taby
     }
