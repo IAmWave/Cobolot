@@ -33,9 +33,6 @@ public class ChatReader {
     final String OAUTH = "oauth:19y7ivmsmck4ct9vw7sdg1j4u6232o";
     public ArrayList<String> currentChannels = new ArrayList<String>();
 
-    //do konstruktoru pak asi muzes dat argumenty jako channel a podobne.
-    //username a heslo muzeme asi hardcodovat, to se menit nebude
-    //veci ktery chat zpracovavaj bych sem nedaval
     public ChatReader() {
 
         listeners = new ArrayList<>();
@@ -57,8 +54,6 @@ public class ChatReader {
     }
 
     public void start() { //zacne cist zpravy
-        //NA TENHLE PRIKLAD JSEM DAL PERIOD NA 1000 MS
-        //V IMPLEMENTACI TO VRAT NA NECO ROZUMNYHO
         new Timer().scheduleAtFixedRate(new ReaderTask(), 1000, 50);
     }
 
@@ -90,8 +85,6 @@ public class ChatReader {
         }
     }
 
-    //asi bych sem dal i posilani zpravy, i kdyz je to "reader"
-    //pripadne prejmenujeme jestli mas nejakej napad :D
     public void sendMessage(String msg, String channel) {
         try {
             writer.write("PRIVMSG #" + channel + " :" + msg + "\r\n");
@@ -105,10 +98,6 @@ public class ChatReader {
 
         @Override
         public void run() {
-            //tady patri to, co chces delat kazdych 50 ms - nejaky to cteni IRC.
-            //nejsem si jistej jestli se to da implementovat takhle (volani metody kazdych 50 ms)
-            //tak to kdyztak uprav :)
-
             String line = "";
             try {
                 line = reader.readLine();
