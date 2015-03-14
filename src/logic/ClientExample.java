@@ -7,6 +7,7 @@ package logic;
 
 import input.ChatListener;
 import input.ChatReader;
+import input.Message;
 
 /**
  *
@@ -20,11 +21,11 @@ public class ClientExample implements ChatListener {
         this.cr = cr;
         cr.addListener(this);
         cr.start();
-        cr.sendMessage("priklad posilani zpravy");
+        cr.sendMessage("priklad posilani zpravy", cr.currentChannels.get(1));
     }
 
     @Override
-    public void onMessage(String message) {
+    public void onMessage(Message message) {
         System.out.println(message);
     }
 

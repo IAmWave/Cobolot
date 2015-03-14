@@ -30,7 +30,7 @@ public class ChatReader {
     final String SERVER = "irc.twitch.tv";
     final String LOGIN = "cobolot";
     final String OAUTH = "oauth:19y7ivmsmck4ct9vw7sdg1j4u6232o";
-    private ArrayList<String> currentChannels = new ArrayList<String>();
+    public ArrayList<String> currentChannels = new ArrayList<String>();
 
     //do konstruktoru pak asi muzes dat argumenty jako channel a podobne.
     //username a heslo muzeme asi hardcodovat, to se menit nebude
