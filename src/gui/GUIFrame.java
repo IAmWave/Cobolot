@@ -10,6 +10,9 @@ import input.ChatListener;
 import input.ChatReader;
 import input.Message;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -39,12 +42,28 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
         }
         //</editor-fold>
         initComponents();
-        //Look and feel
+        sendTextField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    sendMessage();
+                }
+            }
+        });
 
         setLocationRelativeTo(null);
         cr.addListener(this);
         cr.start();
-        cr.joinChannel("sodapoppin");
+        cr.joinChannel("noxious_hs");
         cr.sendMessage("priklad posilani zpravy", cr.currentChannels.get(0));
     }
 
@@ -133,9 +152,14 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
     }// </editor-fold>//GEN-END:initComponents
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
-        chatReader.sendMessage(sendTextField.getText(), chatReader.currentChannels.get(0));
-        sendTextField.setText("");
+        sendMessage();
     }//GEN-LAST:event_sendButtonActionPerformed
+
+    private void sendMessage() {
+        chatReader.sendMessage(sendTextField.getText(), chatReader.currentChannels.get(0));
+        onMessage(new Message(chatReader.currentChannels.get(0),"Cobolot",sendTextField.getText()));
+        sendTextField.setText("");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextPane chatPane;
@@ -151,15 +175,14 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
     public void onMessage(Message message) {
         Color c = Color.BLACK;
         StyleContext sc = StyleContext.getDefaultStyleContext();
-        AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY,StyleConstants.Foreground, c);
+        AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
         int len = chatPane.getDocument().getLength(); // same value as getText().length();
         chatPane.setCaretPosition(len);  // place caret at the end (with no selection)
         chatPane.setCharacterAttributes(aset, false);
-        if(chatPane.getText().equals("")){
-        chatPane.replaceSelection(message.getMsg()); // there is no selection, so inserts at caret
-        }
-        else{
-        chatPane.replaceSelection("\n" + message.getMsg()); // there is no selection, so inserts at caret
+        if (chatPane.getText().equals("")) {
+            chatPane.replaceSelection(message.getMsg()); // there is no selection, so inserts at caret
+        } else {
+            chatPane.replaceSelection("\n" + message.getMsg()); // there is no selection, so inserts at caret
         }
         chatPane.setCaretPosition(chatPane.getDocument().getLength());
         repaint(); //Repaintuje taby
