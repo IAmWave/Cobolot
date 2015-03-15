@@ -10,12 +10,10 @@ import input.ChatListener;
 import input.ChatReader;
 import input.Message;
 import java.awt.Color;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -63,8 +61,7 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
         setLocationRelativeTo(null);
         cr.addListener(this);
         cr.start();
-        cr.joinChannel("noxious_hs");
-        cr.sendMessage("priklad posilani zpravy", cr.currentChannels.get(0));
+        cr.joinChannel("legendarylea");
     }
 
     /**
@@ -157,7 +154,7 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
 
     private void sendMessage() {
         chatReader.sendMessage(sendTextField.getText(), chatReader.currentChannels.get(0));
-        onMessage(new Message(chatReader.currentChannels.get(0),"Cobolot",sendTextField.getText()));
+        onMessage(new Message(chatReader.currentChannels.get(0),chatReader.LOGIN,sendTextField.getText()));
         sendTextField.setText("");
     }
 
@@ -174,6 +171,9 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
     @Override
     public void onMessage(Message message) {
         Color c = Color.BLACK;
+        if(message.getUser().equals(chatReader.LOGIN)){
+        c = Color.RED;
+        }
         StyleContext sc = StyleContext.getDefaultStyleContext();
         AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
         int len = chatPane.getDocument().getLength(); // same value as getText().length();
