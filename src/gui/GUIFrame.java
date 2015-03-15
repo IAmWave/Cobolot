@@ -59,12 +59,13 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
                 }
             }
         });
-
+        ExampleTabPanel etp = new ExampleTabPanel(cr, "Kappa");
+        tabbedPane.addTab("Kappa counter", etp);
+        
         setLocationRelativeTo(null);
         cr.addListener(this);
         cr.start();
-        cr.joinChannel("noxious_hs");
-        cr.sendMessage("priklad posilani zpravy", cr.currentChannels.get(0));
+        cr.joinChannel("alexich");
     }
 
     /**
@@ -79,42 +80,12 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
         jScrollPane1 = new javax.swing.JScrollPane();
         chatPane = new javax.swing.JTextPane();
         tabbedPane = new javax.swing.JTabbedPane();
-        firstPanel = new javax.swing.JPanel();
-        secondPanel = new javax.swing.JPanel();
         sendTextField = new javax.swing.JTextField();
         sendButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jScrollPane1.setViewportView(chatPane);
-
-        firstPanel = new ExampleTabPanel(chatReader, "soda");
-
-        javax.swing.GroupLayout firstPanelLayout = new javax.swing.GroupLayout(firstPanel);
-        firstPanel.setLayout(firstPanelLayout);
-        firstPanelLayout.setHorizontalGroup(
-            firstPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 527, Short.MAX_VALUE)
-        );
-        firstPanelLayout.setVerticalGroup(
-            firstPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 572, Short.MAX_VALUE)
-        );
-
-        tabbedPane.addTab("tab1", firstPanel);
-
-        javax.swing.GroupLayout secondPanelLayout = new javax.swing.GroupLayout(secondPanel);
-        secondPanel.setLayout(secondPanelLayout);
-        secondPanelLayout.setHorizontalGroup(
-            secondPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 527, Short.MAX_VALUE)
-        );
-        secondPanelLayout.setVerticalGroup(
-            secondPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 572, Short.MAX_VALUE)
-        );
-
-        tabbedPane.addTab("tab2", secondPanel);
 
         sendButton.setText("Send");
         sendButton.addActionListener(new java.awt.event.ActionListener() {
@@ -128,24 +99,27 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(tabbedPane)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(sendTextField)
+                .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(sendTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sendButton))))
+                        .addComponent(sendButton))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(tabbedPane)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1)
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sendTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sendButton)))
+                    .addComponent(sendButton))
+                .addContainerGap())
         );
 
         pack();
@@ -163,9 +137,7 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextPane chatPane;
-    private javax.swing.JPanel firstPanel;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JPanel secondPanel;
     private javax.swing.JButton sendButton;
     private javax.swing.JTextField sendTextField;
     private javax.swing.JTabbedPane tabbedPane;
