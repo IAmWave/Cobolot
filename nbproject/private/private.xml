@@ -3,11 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Lenovo/Documents/GitHub/Cobolot/src/input/Message.java</file>
-            <file>file:/C:/Users/Lenovo/Documents/GitHub/Cobolot/src/logic/Launcher.java</file>
-            <file>file:/C:/Users/Lenovo/Documents/GitHub/Cobolot/src/input/ChatReader.java</file>
-            <file>file:/C:/Users/Lenovo/Documents/GitHub/Cobolot/src/gui/GUIFrame.java</file>
-            <file>file:/C:/Users/Lenovo/Documents/GitHub/Cobolot/src/input/ChatListener.java</file>
+            <file>file:/C:/Users/Václav/Documents/NetBeansProjects/Cobolot/src/input/ChatReader.java</file>
+            <file>file:/C:/Users/Václav/Documents/NetBeansProjects/Cobolot/src/gui/tabs/ExampleTabPanel.java</file>
+            <file>file:/C:/Users/Václav/Documents/NetBeansProjects/Cobolot/src/gui/tabs/GraphTabPanel.java</file>
+            <file>file:/C:/Users/Václav/Documents/NetBeansProjects/Cobolot/src/logic/Launcher.java</file>
+            <file>file:/C:/Users/Václav/Documents/NetBeansProjects/Cobolot/src/gui/GUIFrame.java</file>
+            <file>file:/C:/Users/Václav/Documents/NetBeansProjects/Cobolot/src/input/Message.java</file>
         </group>
     </open-files>
 </project-private>

@@ -5,7 +5,7 @@
  */
 package gui;
 
-import gui.tabs.ExampleTabPanel;
+import gui.tabs.GraphTabPanel;
 import input.ChatListener;
 import input.ChatReader;
 import input.Message;
@@ -57,14 +57,15 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
                 }
             }
         });
-        ExampleTabPanel etp = new ExampleTabPanel(cr, "Kappa");
-        tabbedPane.addTab("Kappa counter", etp);
+        //ExampleTabPanel etp = new ExampleTabPanel(cr, "Kappa");
+        //tabbedPane.addTab("Kappa counter", etp);
+        GraphTabPanel graph = new GraphTabPanel(cr, 10);
+        tabbedPane.addTab("Graphs", graph);
         
         setLocationRelativeTo(null);
         cr.addListener(this);
         cr.start();
-        cr.joinChannel("legendarylea");
-
+        cr.joinChannel("nightblue3");
     }
 
     /**
@@ -98,11 +99,11 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(sendTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                        .addComponent(sendTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(sendButton))
                     .addComponent(jScrollPane1))
@@ -113,7 +114,7 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
             .addComponent(tabbedPane)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sendTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -130,7 +131,7 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
 
     private void sendMessage() {
         chatReader.sendMessage(sendTextField.getText(), chatReader.currentChannels.get(0));
-        onMessage(new Message(chatReader.currentChannels.get(0),chatReader.LOGIN,sendTextField.getText()));
+        onMessage(new Message(chatReader.currentChannels.get(0),"Cobolot",sendTextField.getText()));
         sendTextField.setText("");
     }
 
@@ -145,9 +146,6 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
     @Override
     public void onMessage(Message message) {
         Color c = Color.BLACK;
-        if(message.getUser().equals(chatReader.LOGIN)){
-        c = Color.RED;
-        }
         StyleContext sc = StyleContext.getDefaultStyleContext();
         AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
         int len = chatPane.getDocument().getLength(); // same value as getText().length();

@@ -18,7 +18,6 @@ import javax.swing.JLabel;
 public class ExampleTabPanel extends AbstractTabPanel {
 
     String target;
-    JLabel label;
     int count = 0;
 
     public ExampleTabPanel(ChatReader cr, String target) {
