@@ -9,7 +9,7 @@ import input.ChatReader;
 import input.Message;
 import java.awt.Color;
 import java.awt.Graphics;
-import javax.swing.JLabel;
+import java.util.Date;
 
 /**
  *
@@ -19,10 +19,12 @@ public class ExampleTabPanel extends AbstractTabPanel {
 
     String target;
     int count = 0;
+    long start;
 
     public ExampleTabPanel(ChatReader cr, String target) {
         super(cr);
         this.target = target;
+        this.start = System.currentTimeMillis();
     }
 
     @Override
@@ -36,5 +38,6 @@ public class ExampleTabPanel extends AbstractTabPanel {
     public void paintComponent(Graphics g) {
         g.setColor(Color.black);
         g.drawString("Count of " + target + ": " + count, 50, 50);
+        g.drawString("KPM: " + (count / ((System.currentTimeMillis() - start +1.0) / 60000)), 50, 60);
     }
 }

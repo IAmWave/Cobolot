@@ -163,7 +163,7 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
         } else {
             chatPane.replaceSelection("\n" + message.getMsg()); // there is no selection, so inserts at caret
         }
-        chatPane.setCaretPosition(chatPane.getDocument().getLength());
+        chatPane.setCaretPosition(chatPane.getDocument().getLength() - message.getMsg().length());
         repaint(); //Repaintuje taby
     }
 }
