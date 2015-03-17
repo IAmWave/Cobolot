@@ -17,7 +17,9 @@ import javax.swing.JPanel;
 
 //třídu budou extendovat jednotlivé taby
 public abstract class AbstractTabPanel extends JPanel implements ChatListener {
+     ChatReader cr;
     public AbstractTabPanel(ChatReader cr){
         cr.addListener(this);
+        this.cr = cr;
     }
 }

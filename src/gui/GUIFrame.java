@@ -6,6 +6,7 @@
 package gui;
 
 import gui.tabs.ExampleTabPanel;
+import gui.tabs.SinglePastaTabPanel;
 import input.ChatListener;
 import input.ChatReader;
 import input.Message;
@@ -59,11 +60,13 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
         });
         ExampleTabPanel etp = new ExampleTabPanel(cr, "Kappa");
         tabbedPane.addTab("Kappa counter", etp);
+        SinglePastaTabPanel sP = new SinglePastaTabPanel(cr);
+        tabbedPane.addTab("Single pasta", sP);
         
         setLocationRelativeTo(null);
         cr.addListener(this);
         cr.start();
-        cr.joinChannel("legendarylea");
+        cr.joinChannel("sing_sing");
 
     }
 
