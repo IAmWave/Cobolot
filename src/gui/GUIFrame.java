@@ -7,6 +7,7 @@ package gui;
 
 import gui.tabs.ExampleTabPanel;
 import gui.tabs.SinglePastaTabPanel;
+import gui.tabs.GraphTabPanel;
 import input.ChatListener;
 import input.ChatReader;
 import input.Message;
@@ -62,12 +63,13 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
         tabbedPane.addTab("Kappa counter", etp);
         SinglePastaTabPanel sP = new SinglePastaTabPanel(cr);
         tabbedPane.addTab("Single pasta", sP);
+        GraphTabPanel graph = new GraphTabPanel(cr, 10);
+        tabbedPane.addTab("Graphs", graph);
         
         setLocationRelativeTo(null);
         cr.addListener(this);
         cr.start();
         cr.joinChannel("sing_sing");
-
     }
 
     /**
@@ -101,11 +103,11 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(sendTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                        .addComponent(sendTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(sendButton))
                     .addComponent(jScrollPane1))
@@ -116,7 +118,7 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
             .addComponent(tabbedPane)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 560, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sendTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
