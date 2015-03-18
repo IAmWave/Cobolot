@@ -45,7 +45,7 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
         sendTextField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-                
+
             }
 
             @Override
@@ -65,7 +65,7 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
         tabbedPane.addTab("Single pasta", sP);
         GraphTabPanel graph = new GraphTabPanel(cr, 10);
         tabbedPane.addTab("Graphs", graph);
-        
+
         setLocationRelativeTo(null);
         cr.addListener(this);
         cr.start();
@@ -135,7 +135,6 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
 
     private void sendMessage() {
         chatReader.sendMessage(sendTextField.getText(), chatReader.currentChannels.get(0));
-        onMessage(new Message(chatReader.currentChannels.get(0),chatReader.LOGIN,sendTextField.getText()));
         sendTextField.setText("");
     }
 
@@ -150,9 +149,23 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
     @Override
     public void onMessage(Message message) {
         Color c = Color.BLACK;
-        if(message.getUser().equals(chatReader.LOGIN)){
-        c = Color.RED;
+        StyleContext sc = StyleContext.getDefaultStyleContext();
+        AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
+        int len = chatPane.getDocument().getLength(); // same value as getText().length();
+        chatPane.setCaretPosition(len);  // place caret at the end (with no selection)
+        chatPane.setCharacterAttributes(aset, false);
+        if (chatPane.getText().equals("")) {
+            chatPane.replaceSelection(message.getMsg()); // there is no selection, so inserts at caret
+        } else {
+            chatPane.replaceSelection("\n" + message.getMsg()); // there is no selection, so inserts at caret
         }
+        chatPane.setCaretPosition(chatPane.getDocument().getLength() - message.getMsg().length());
+        repaint(); //Repaintuje taby
+    }
+
+    @Override
+    public void onUserMessage(Message message) {
+        Color c = Color.RED;
         StyleContext sc = StyleContext.getDefaultStyleContext();
         AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
         int len = chatPane.getDocument().getLength(); // same value as getText().length();

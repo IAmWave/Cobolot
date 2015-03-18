@@ -146,4 +146,9 @@ public class SinglePastaTabPanel  extends AbstractTabPanel{
            this.pastaCountLabel.setText(this.pastaCount + "");
        }
     }
+
+    @Override
+    public void onUserMessage(Message message) {
+        //kdyz se zavola cr.sendMessage
+    }
 }

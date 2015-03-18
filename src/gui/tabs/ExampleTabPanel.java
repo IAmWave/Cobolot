@@ -40,4 +40,9 @@ public class ExampleTabPanel extends AbstractTabPanel {
         g.drawString("Count of " + target + ": " + count, 50, 50);
         g.drawString("KPM: " + (count / ((System.currentTimeMillis() - start +1.0) / 60000)), 50, 60);
     }
+
+    @Override
+    public void onUserMessage(Message message) {
+        //kdyz se zavola cr.sendMessage
+    }
 }

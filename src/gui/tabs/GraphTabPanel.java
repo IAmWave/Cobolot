@@ -71,4 +71,9 @@ public class GraphTabPanel extends AbstractTabPanel {
         }
         g.setColor(Color.red);
     }
+
+    @Override
+    public void onUserMessage(Message message) {
+        //kdyz se zavola cr.sendMessage
+    }
 }

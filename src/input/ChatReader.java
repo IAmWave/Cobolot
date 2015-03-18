@@ -92,6 +92,9 @@ public class ChatReader {
         } catch (IOException ex) {
             Logger.getLogger(ChatReader.class.getName()).log(Level.SEVERE, null, ex);
         }
+        for (ChatListener l : listeners) {
+            l.onUserMessage(new Message(channel, this.LOGIN, msg));
+        }
     }
 
     private class ReaderTask extends TimerTask {
