@@ -30,7 +30,7 @@ public class ChatReader {
     BufferedReader reader = null;
     final String SERVER = "irc.twitch.tv";
     public final String LOGIN = "cobolot";
-    final String OAUTH = "oauth:19y7ivmsmck4ct9vw7sdg1j4u6232o";
+    final String OAUTH = "oauth:cwa4qb444vsnk8qzhvhlua36ebck22";
     public ArrayList<String> currentChannels = new ArrayList<String>();
 
     public ChatReader() {

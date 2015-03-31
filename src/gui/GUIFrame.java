@@ -69,7 +69,7 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
         setLocationRelativeTo(null);
         cr.addListener(this);
         cr.start();
-        cr.joinChannel("sing_sing");
+        cr.joinChannel("nl_kripp");
     }
 
     /**
@@ -134,8 +134,9 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
     }//GEN-LAST:event_sendButtonActionPerformed
 
     private void sendMessage() {
+        if(!sendTextField.getText().equals("")){
         chatReader.sendMessage(sendTextField.getText(), chatReader.currentChannels.get(0));
-        sendTextField.setText("");
+        sendTextField.setText("");}
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
