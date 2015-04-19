@@ -7,6 +7,7 @@ package gui.tabs;
 
 import input.ChatReader;
 import input.Message;
+import java.util.ArrayDeque;
 import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -23,11 +24,14 @@ public class SinglePastaTabPanel extends AbstractTabPanel {
     private boolean found = false;
     private int pastaCount = 0;
 
+    ArrayDeque<Long> kappaQ;
+
     /**
      * Creates new form SinglePastaTabPanel
      */
     public SinglePastaTabPanel(ChatReader cr) {
         super(cr);
+        this.kappaQ = new ArrayDeque<Long>();
         initComponents();
 
     }
@@ -48,6 +52,10 @@ public class SinglePastaTabPanel extends AbstractTabPanel {
         pastaStatusLabel = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         pastaCountLabel = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        ppmLabel = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        lastMinuteLabel = new javax.swing.JLabel();
 
         newPastaButton.setText("new pasta");
         newPastaButton.addActionListener(new java.awt.event.ActionListener() {
@@ -67,6 +75,14 @@ public class SinglePastaTabPanel extends AbstractTabPanel {
         jLabel3.setText("Pasta count: ");
 
         pastaCountLabel.setText("0");
+
+        jLabel4.setText("Pasta per minute:");
+
+        ppmLabel.setText("0");
+
+        jLabel5.setText("Pastas last minute:");
+
+        lastMinuteLabel.setText("0");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -90,7 +106,15 @@ public class SinglePastaTabPanel extends AbstractTabPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(pastaCountLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(pastaCountLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lastMinuteLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ppmLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -109,17 +133,29 @@ public class SinglePastaTabPanel extends AbstractTabPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(pastaCountLabel))
-                .addContainerGap(240, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(lastMinuteLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(ppmLabel))
+                .addContainerGap(198, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void newPastaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newPastaButtonActionPerformed
         target = (String) JOptionPane.showInputDialog(new JFrame(), "Please enter your pasta: ", "Kappa");
+        kappaQ = new ArrayDeque<Long>();
         this.currentPastaField.setText(target);
         this.start = new Date().getTime();
         this.cr.sendMessage(target, cr.currentChannels.get(0));
         set = true;
         this.pastaStatusLabel.setText("PASTA NOT FOUND YET");
+        this.lastMinuteLabel.setText("0");
+        this.ppmLabel.setText("0");
+        this.pastaCountLabel.setText("0");
         this.found = false;
         this.pastaCount = 0;
     }//GEN-LAST:event_newPastaButtonActionPerformed
@@ -130,13 +166,18 @@ public class SinglePastaTabPanel extends AbstractTabPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel lastMinuteLabel;
     private javax.swing.JButton newPastaButton;
     private javax.swing.JLabel pastaCountLabel;
     private javax.swing.JLabel pastaStatusLabel;
+    private javax.swing.JLabel ppmLabel;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void onMessage(Message message) {
+
         if (set && message.getMsg().contains(target)) {
             if (!found) {
                 this.pastaStatusLabel.setText("PASTA FOUND IN " + (new Date().getTime() - this.start));
@@ -144,7 +185,18 @@ public class SinglePastaTabPanel extends AbstractTabPanel {
             }
             this.pastaCount++;
             this.pastaCountLabel.setText(this.pastaCount + "");
+            this.kappaQ.add((Long) System.currentTimeMillis());
         }
+        if (!kappaQ.isEmpty()) {
+            while (kappaQ.getFirst() < System.currentTimeMillis() - 60000) {
+                kappaQ.removeFirst();
+                if (kappaQ.isEmpty()) {
+                    break;
+                }
+            }
+        }
+        this.lastMinuteLabel.setText(kappaQ.size() + "");
+        this.ppmLabel.setText(this.pastaCount / ((System.currentTimeMillis() - start + 1.0) / 60000) + "");
     }
 
     @Override
