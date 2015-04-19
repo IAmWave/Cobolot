@@ -69,7 +69,7 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
         setLocationRelativeTo(null);
         cr.addListener(this);
         cr.start();
-        cr.joinChannel("nl_kripp");
+        //cr.joinChannel("riotgames"); nyni se pripojuje sam
     }
 
     /**

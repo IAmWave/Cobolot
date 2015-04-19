@@ -14,7 +14,7 @@ import input.ChatReader;
  */
 public class Launcher {
     public static void main(String[] args){
-        ChatReader cr = new ChatReader();
+        ChatReader cr = new ChatReader("riotgames");
         new GUIFrame(cr).setVisible(true);
     }
 }
