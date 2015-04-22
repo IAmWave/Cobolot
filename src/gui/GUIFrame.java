@@ -8,6 +8,7 @@ package gui;
 import gui.tabs.ExampleTabPanel;
 import gui.tabs.SinglePastaTabPanel;
 import gui.tabs.GraphTabPanel;
+import gui.tabs.WordsPanel;
 import input.ChatListener;
 import input.ChatReader;
 import input.Message;
@@ -59,13 +60,15 @@ public class GUIFrame extends javax.swing.JFrame implements ChatListener {
                 }
             }
         });
+        WordsPanel words = new WordsPanel(cr, 30);
+        tabbedPane.addTab("Words", words);
         ExampleTabPanel etp = new ExampleTabPanel(cr, "Kappa");
         tabbedPane.addTab("Kappa counter", etp);
         SinglePastaTabPanel sP = new SinglePastaTabPanel(cr);
         tabbedPane.addTab("Single pasta", sP);
         GraphTabPanel graph = new GraphTabPanel(cr, 10);
         tabbedPane.addTab("Graphs", graph);
-
+        
         setLocationRelativeTo(null);
         cr.addListener(this);
         cr.start();

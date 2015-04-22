@@ -44,7 +44,7 @@ public class ChatReader {
         listeners = new ArrayList<>();
 
         String server;
-        if(channel!=null) server = getServer(channel);
+        if (channel != null) server = getServer(channel);
         else server = SERVER;
         // Connect directly to the IRC server.
         Socket socket;
@@ -64,7 +64,8 @@ public class ChatReader {
     }
 
     public void start() { //zacne cist zpravy
-        new Timer().scheduleAtFixedRate(new ReaderTask(), 1000, 50);
+        new ReaderTask().start();
+        //new Timer().scheduleAtFixedRate(new ReaderTask(), 1000, 20);
     }
 
     public void addListener(ChatListener l) {
@@ -115,7 +116,7 @@ public class ChatReader {
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(con.getInputStream()));
             String input = in.readLine();
-            input = input.substring(input.indexOf(SERVERS_START)+SERVERS_START.length());
+            input = input.substring(input.indexOf(SERVERS_START) + SERVERS_START.length());
             input = input.substring(0, input.indexOf(SERVERS_END));
             in.close();
             return input;
@@ -126,42 +127,42 @@ public class ChatReader {
         return "error in getting servers";
     }
 
-    private class ReaderTask extends TimerTask {
+    private class ReaderTask extends Thread {
 
         @Override
         public void run() {
-            String line = "";
-            try {
-                line = reader.readLine();
-            } catch (IOException ex) {
-                Logger.getLogger(ChatReader.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            if (line.startsWith("PING ")) {
+            while (true) {
+                String line = "";
                 try {
-                    // We must respond to PINGs to avoid being disconnected.
-
-                    writer.write("PONG " + line.substring(5) + "\r\n");
-                    writer.flush();
+                    line = reader.readLine();
                 } catch (IOException ex) {
                     Logger.getLogger(ChatReader.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                System.out.println(line);
-            } else if (line.contains("PRIVMSG")) {
-                String msgChannel = "";
-                for (int i = 0; i < currentChannels.size(); i++) {
-                    if (line.contains("PRIVMSG #" + currentChannels.get(i))) {
-                        for (ChatListener l : listeners) {
-                            l.onMessage(new Message(currentChannels.get(i), line.split("!")[0].substring(1), line.substring(line.indexOf(currentChannels.get(i)) + currentChannels.get(i).length() + 2)));
+                if (line.startsWith("PING ")) {
+                    try {
+                        // We must respond to PINGs to avoid being disconnected.
+                        writer.write("PONG " + line.substring(5) + "\r\n");
+                        writer.flush();
+                    } catch (IOException ex) {
+                        Logger.getLogger(ChatReader.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    System.out.println(line);
+                } else if (line.contains("PRIVMSG")) {
+                    String msgChannel = "";
+                    for (int i = 0; i < currentChannels.size(); i++) {
+                        if (line.contains("PRIVMSG #" + currentChannels.get(i))) {
+                            for (ChatListener l : listeners) {
+                                l.onMessage(new Message(currentChannels.get(i), line.split("!")[0].substring(1), line.substring(line.indexOf(currentChannels.get(i)) + currentChannels.get(i).length() + 2)));
+                            }
                         }
                     }
+                } else {
+                    // Vypise zpravu, pokud nezna jeji smysl
+                    System.out.println(line);
                 }
-            } else {
-                // Vypise zpravu, pokud nezna jeji smysl
-                System.out.println(line);
             }
         }
-
     }
 }

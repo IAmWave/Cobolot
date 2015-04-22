@@ -10,15 +10,16 @@ package input;
  * @author Lenovo
  */
 public class Message {
-    
+
     private String channel;
     private String user;
     private String msg;
-        
-    public Message(String channel, String user, String msg){
-    this.channel = channel;
-    this.user = user;
-    this.msg = msg;
+    private long time;
+    public Message(String channel, String user, String msg) {
+        this.channel = channel;
+        this.user = user;
+        this.msg = msg;
+        time = System.currentTimeMillis();
     }
 
     /**
@@ -40,5 +41,9 @@ public class Message {
      */
     public String getMsg() {
         return msg;
+    }
+
+    public long getTime() {
+        return time;
     }
 }
