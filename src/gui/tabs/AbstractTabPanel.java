@@ -7,7 +7,6 @@ package gui.tabs;
 
 import input.ChatListener;
 import input.ChatReader;
-import java.awt.Graphics;
 import javax.swing.JPanel;
 
 /**
