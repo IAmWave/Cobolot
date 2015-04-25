@@ -50,6 +50,7 @@ public class ChatWriter implements ChatListener {
     public void writeAll() {
         FileOutput.writeMessages(this.unsavedMessages, this.sessionAddress);
         this.unsavedMessages = new ArrayList<>();
+        System.gc();
     }
 
 }
