@@ -27,7 +27,7 @@ public class FileOutput {
 
     public static void writeMessages(ArrayList<Message> msgs, String address) {
         final String SEPARATOR = "|";
-        System.out.println("WRITING TO: " + address);
+        System.out.println(System.currentTimeMillis() + " WRITING TO: " + address);
         new File(address).getParentFile().mkdirs();
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(address, true))) {
             for (int i = 0; i < msgs.size(); i++) {
