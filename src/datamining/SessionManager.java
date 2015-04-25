@@ -5,10 +5,6 @@
  */
 package datamining;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -22,13 +18,13 @@ public class SessionManager {
     }
 
     ArrayList<ChatWriter> sessions;
-    final int MAX_CHANNEL_COUNT = 10;
+    final int MAX_CHANNEL_COUNT = 15;
     final String LOG_DIRECTORY = "logs";
     TwitchApiReader api;
 
     public SessionManager() {
         this.sessions = new ArrayList<>();
-        this.sessions.add(new ChatWriter("sodapoppin", "sodapoppin.txt"));
+        //this.sessions.add(new ChatWriter("sodapoppin", "sodapoppin.txt"));
         this.api = new TwitchApiReader();
         String[] str = api.getTopChannels(this.MAX_CHANNEL_COUNT);
         for (int i = 0; i < str.length; i++) {
@@ -37,7 +33,7 @@ public class SessionManager {
     }
 
     public void newSession(String channel) {
-        this.sessions.add(new ChatWriter(channel, LOG_DIRECTORY + "/" + channel + "/" + channel + "_" + System.currentTimeMillis()  + ".txt"));
+        this.sessions.add(new ChatWriter(channel, LOG_DIRECTORY + "/" + channel + "/" + channel + "-" + System.currentTimeMillis()  + ".txt"));
         System.out.println(System.currentTimeMillis() + " NEW SESSION: " + channel);
     }
 }
