@@ -13,8 +13,9 @@ import input.ChatReader;
  * @author Václav
  */
 public class Launcher {
-    public static void main(String[] args){
-        ChatReader cr = new ChatReader("sodapoppin");
+
+    public static void main(String[] args) {
+        ChatReader cr = new ChatReader("sodapoppin", false);
         new GUIFrame(cr).setVisible(true);
     }
 }
