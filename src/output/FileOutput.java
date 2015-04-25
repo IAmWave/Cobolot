@@ -2,6 +2,7 @@ package output;
 
 import input.Message;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
@@ -26,6 +27,7 @@ public class FileOutput {
 
     public static void writeMessages(ArrayList<Message> msgs, String address) {
         final String SEPARATOR = "|";
+        new File(address).getParentFile().mkdirs();
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(address, true))) {
             for (int i = 0; i < msgs.size(); i++) {
                 Message msg = msgs.get(i);
@@ -34,6 +36,7 @@ public class FileOutput {
             }
             bw.flush();
         } catch (Exception e) {
+            e.printStackTrace();
             System.err.println("Write failed.");
         }
     }

@@ -19,14 +19,14 @@ public class ChatWriter implements ChatListener {
     
     String sessionAddress;
     ArrayList<Message> unsavedMessages;
-    final int MAX_UNSAVED_MESSAGES = 10;
+    final int MAX_UNSAVED_MESSAGES = 100;
     ChatReader cr;
 
     public ChatWriter(String channel, String sessionAddress) {
         this.unsavedMessages = new ArrayList<>();
         this.sessionAddress = sessionAddress;
         
-        this.cr = new ChatReader(channel);
+        this.cr = new ChatReader(channel, true);
         cr.addListener(this);
         cr.start();
     }
@@ -49,6 +49,7 @@ public class ChatWriter implements ChatListener {
 
     public void writeAll() {
         FileOutput.writeMessages(this.unsavedMessages, this.sessionAddress);
+        this.unsavedMessages = new ArrayList<>();
     }
 
 }
