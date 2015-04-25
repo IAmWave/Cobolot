@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 public class ChatReader {
 
     ArrayList<ChatListener> listeners;
-
+    boolean silent = false;
     BufferedWriter writer = null;
     BufferedReader reader = null;
     final String SERVER = "irc.twitch.tv:6667";
@@ -38,12 +38,15 @@ public class ChatReader {
     private static final String SERVERS_START = "\"chat_servers\":[\"";
     private static final String SERVERS_END = "\"";
 
-    public ChatReader(String channel) {
+    public ChatReader(String channel, boolean silent) {
         listeners = new ArrayList<>();
-
+        this.silent = silent;
         String server;
-        if (channel != null) server = getServer(channel);
-        else server = SERVER;
+        if (channel != null) {
+            server = getServer(channel);
+        } else {
+            server = SERVER;
+        }
         // Connect directly to the IRC server.
         Socket socket;
         try {
@@ -136,29 +139,30 @@ public class ChatReader {
                 } catch (IOException ex) {
                     Logger.getLogger(ChatReader.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                if (line != null) {
+                    if (line.startsWith("PING ")) {
+                        try {
+                            // We must respond to PINGs to avoid being disconnected.
+                            writer.write("PONG " + line.substring(5) + "\r\n");
+                            writer.flush();
+                        } catch (IOException ex) {
+                            Logger.getLogger(ChatReader.class.getName()).log(Level.SEVERE, null, ex);
+                        }
 
-                if (line.startsWith("PING ")) {
-                    try {
-                        // We must respond to PINGs to avoid being disconnected.
-                        writer.write("PONG " + line.substring(5) + "\r\n");
-                        writer.flush();
-                    } catch (IOException ex) {
-                        Logger.getLogger(ChatReader.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                    System.out.println(line);
-                } else if (line.contains("PRIVMSG")) {
-                    String msgChannel = "";
-                    for (int i = 0; i < currentChannels.size(); i++) {
-                        if (line.contains("PRIVMSG #" + currentChannels.get(i))) {
-                            for (ChatListener l : listeners) {
-                                l.onMessage(new Message(currentChannels.get(i), line.split("!")[0].substring(1), line.substring(line.indexOf(currentChannels.get(i)) + currentChannels.get(i).length() + 2)));
+                        System.out.println(line);
+                    } else if (line.contains("PRIVMSG")) {
+                        String msgChannel = "";
+                        for (int i = 0; i < currentChannels.size(); i++) {
+                            if (line.contains("PRIVMSG #" + currentChannels.get(i))) {
+                                for (ChatListener l : listeners) {
+                                    l.onMessage(new Message(currentChannels.get(i), line.split("!")[0].substring(1), line.substring(line.indexOf(currentChannels.get(i)) + currentChannels.get(i).length() + 2)));
+                                }
                             }
                         }
+                    } else if (!silent) {
+                        // Vypise zpravu, pokud nezna jeji smysl
+                        System.out.println(line);
                     }
-                } else {
-                    // Vypise zpravu, pokud nezna jeji smysl
-                    System.out.println(line);
                 }
             }
         }
