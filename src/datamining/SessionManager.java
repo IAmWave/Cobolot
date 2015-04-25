@@ -40,6 +40,9 @@ public class SessionManager {
 
         @Override
         public void run() {
+            for (int i = 0; i < sessions.size(); i++) {
+                sessions.get(i).writeAll();
+            }
             sessions = new ArrayList<>();
             String[] str = api.getTopChannels(MAX_CHANNEL_COUNT);
             for (int i = 0; i < str.length; i++) {
