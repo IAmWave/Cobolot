@@ -42,6 +42,7 @@ public class SessionManager {
         public void run() {
             for (int i = 0; i < sessions.size(); i++) {
                 sessions.get(i).writeAll();
+                sessions.get(i).cr.stop();
             }
             sessions = new ArrayList<>();
             String[] str = api.getTopChannels(MAX_CHANNEL_COUNT);

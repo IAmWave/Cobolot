@@ -37,6 +37,7 @@ public class ChatReader {
     private static final String API_URL_SUFFIX = "/chat_properties";
     private static final String SERVERS_START = "\"chat_servers\":[\"";
     private static final String SERVERS_END = "\"";
+    private ReaderTask task;
 
     public ChatReader(String channel, boolean silent) {
         listeners = new ArrayList<>();
@@ -65,8 +66,13 @@ public class ChatReader {
     }
 
     public void start() { //zacne cist zpravy
-        new ReaderTask().start();
+        this.task = new ReaderTask();
+        task.start();
         //new Timer().scheduleAtFixedRate(new ReaderTask(), 1000, 20);
+    }
+
+    public void stop() {
+        this.task.stop();
     }
 
     public void addListener(ChatListener l) {
