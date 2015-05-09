@@ -66,6 +66,7 @@ public class SinglePastaTabPanel extends AbstractTabPanel {
 
         jLabel1.setText("current pasta:");
 
+        currentPastaField.setEditable(false);
         currentPastaField.setText("pasta not set");
 
         jLabel2.setText("pasta status:");
