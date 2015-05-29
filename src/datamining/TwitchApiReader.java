@@ -25,8 +25,15 @@ public class TwitchApiReader {
     }
 
     public String getViewerCount(String channel) {
-        //TODO: nebejt línej a udělat to
-        return null;
+        String page = getPage("https://api.twitch.tv/kraken/streams?channel=" + channel);
+        int index = page.indexOf("viewers");
+        return page.substring(index + 9, page.indexOf("created") - 2);
+    }
+
+    public String getGame(String channel) {
+        String page = getPage("https://api.twitch.tv/kraken/streams?channel=" + channel);
+        int index = page.indexOf("game");
+        return page.substring(index + 7, page.indexOf("viewers") - 3);
     }
 
     public String[] getTopChannels(int count) {
@@ -46,5 +53,21 @@ public class TwitchApiReader {
             out[i] = input.substring(0, input.indexOf(NAME_END));
         }
         return out;
+    }
+
+    public String getPage(String url) {
+        String input = "";
+        //long dat = System.currentTimeMillis();
+        try {
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            input = in.readLine();
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //System.out.println(System.currentTimeMillis() - dat + " " + url);
+        return input;
     }
 }

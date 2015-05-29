@@ -1,5 +1,6 @@
 package output;
 
+import datamining.TwitchApiReader;
 import input.Message;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -29,7 +30,13 @@ public class FileOutput {
         final String SEPARATOR = "|";
         System.out.println(System.currentTimeMillis() + " WRITING TO: " + address);
         new File(address).getParentFile().mkdirs();
+        boolean first = !new File(address).exists();
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(address, true))) {
+            if (first) {
+                TwitchApiReader api = new TwitchApiReader();
+                bw.write(api.getViewerCount(msgs.get(0).getChannel()) + SEPARATOR + api.getGame(msgs.get(0).getChannel()));
+                bw.newLine();
+            };
             for (int i = 0; i < msgs.size(); i++) {
                 Message msg = msgs.get(i);
                 bw.write(msg.getTime() + SEPARATOR + msg.getChannel() + SEPARATOR + msg.getUser() + SEPARATOR + msg.getMsg());

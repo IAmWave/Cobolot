@@ -6,6 +6,7 @@
 package datamining;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -33,13 +34,14 @@ public class SessionManager {
 
     public void newSession(String channel) {
         this.sessions.add(new ChatWriter(channel, LOG_DIRECTORY + "/" + channel + "/" + channel + "-" + System.currentTimeMillis() + ".txt"));
-        System.out.println(System.currentTimeMillis() + " NEW SESSION: " + channel);
+        System.out.println(timestamp() + " NEW SESSION: " + channel);
     }
 
     private class ResetTask extends TimerTask {
 
         @Override
         public void run() {
+            System.out.println("RESET");
             for (int i = 0; i < sessions.size(); i++) {
                 sessions.get(i).writeAll();
                 sessions.get(i).cr.stop();
@@ -52,4 +54,8 @@ public class SessionManager {
         }
     }
 
+    public String timestamp() {
+        Date d = new Date();
+        return new String(d.getHours() + ":"+ d.getMinutes() + ":"+d.getSeconds());
+    }
 }
